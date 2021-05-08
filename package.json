@@ -1,0 +1,30 @@
+{
+  "name": "image2pdf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index -e hbs,js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "download": "^8.0.0",
+    "download-file": "^0.1.5",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "hbs": "^4.1.2",
+    "image-to-pdf": "^1.0.0",
+    "images-to-pdf": "^1.0.3",
+    "multer": "^1.4.2",
+    "node-downloader-helper": "^1.0.18",
+    "nodemailer": "^6.6.0",
+    "nodemon": "^2.0.7",
+    "pdfkit": "^0.12.1",
+    "prompt": "^1.1.0",
+    "rimraf": "^3.0.2"
+  }
+}

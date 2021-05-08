@@ -1,0 +1,30 @@
+<script>
+let email=prompt("enter email account");
+   
+
+const check=()=>{
+  
+if(email==null ||email==" " || email.length<5){
+
+ 
+    email=prompt("enter email account");
+}
+else{
+    clearInterval(check);
+    if(email){
+   document.cookie=`email=${email}`
+   document.location("/send");
+   }
+
+}
+}
+  //https://emailverification.whoisxmlapi.com/api/v1?apiKey=at_u0HOHsrhKqKt3hiciQJOavqSUkBIj&emailAddress=arorapratham900@gmail.com
+
+setInterval(check,100);
+ 
+    
+//regualr expression
+//let reg=/harry/
+</script>
+
+
