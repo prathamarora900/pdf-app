@@ -2,7 +2,6 @@ const express=require("express");
 const hbs=require("hbs");            //handlebars                                   //require all module that we use
 const path=require("path"); 
 const nodemailer=require("nodemailer");   
-const prompt=require("prompt"); 
 const checker_files=require("./controller/checker_files");    
 //const { DownloaderHelper } = require('node-downloader-helper');     
 //const  download=require("download"); 
@@ -14,6 +13,7 @@ const port=process.env.PORT||3000;
 const app=express();
 const fileUpload=require("express-fileupload");    //file uploader
 const cp=require("cookie-parser");
+const { exit } = require("process");
 app.set("view-engine","hbs");
 app.use(cp());
 app.use(fileUpload({
@@ -21,8 +21,8 @@ app.use(fileUpload({
 }));
 app.get("/",(req,res)=>{
  
-  res.cookie("email","");
-  res.cookie("total_files","");
+  res.cookie("email","");    //set email to null
+  res.cookie("total_files","");   //set total_files to null
     res.render("index.hbs");   //rendering index page
     })
 app.post("/upload",async(req,res)=>{
@@ -36,12 +36,14 @@ const total_files=req.cookies.total_files;
         ///console.log("done");
       
     //});
-    rimraf.sync("./up");
+    rimraf.sync("./up");  
+    console.log("folder deleted");
   }
   
   fs.mkdir(path.join(__dirname, 'up'), (err) => {   //making dir
     if (err) {
-        //res.send("network issue");  //some error occur
+        res.send("there is some error occur");  //some error occur
+        exit();
     }
     console.log('Directory created successfully!');  //succesfully created
 });
@@ -54,15 +56,18 @@ let file=  req.files.file.name;
 //console.log(filename);
 console.log(file);
 
-if(total_files==1){
+if(total_files==1){   //single image
 req.files.file.mv("./up/"+file,function(err){  //move uploaded files to aim directory
     if(err){
+      res.send("error");
+      exit();
     }else{
         console.log("okay");
+    
     }
 })
 }
-else if(total_files>1){
+else if(total_files>1){   //more than 1 image
 req.files.file.map((e,value) => {    //map helps us for giving value or index in array or object of array 
     console.log("okay");
     //map all objects
@@ -96,10 +101,9 @@ req.files.file[value].mv(    //mv input file to upload folder
     }
 })
     
-
-app.get("/pdf",async(req,res)=>{
+app.get("/pdf",checker_files,async(req,res)=>{
     try{   
-         /* let image_array=[];
+         let image_array=[];
         let c=0;
 let testFolder="./up/";
         fs.readdirSync(testFolder).forEach(file => {  //it will read the files > directories
@@ -111,13 +115,28 @@ let testFolder="./up/";
         let doc = new PDFDocument;
 
         doc.pipe(fs.createWriteStream("output.pdf"))
+
+       // doc.fontSize(40).text("GOVT. POLYTECHNIC",110,50);
+        //doc.fontSize(40).text("HISAR",230,100);
+        
+      //  doc.addPage();
         doc.moveTo(0,0);
+
+        
         image_array.map((current_image,value) =>{
-            doc.image("./up/"+current_image, {
-               fit: [600,600],
+         
+          doc.fontSize(15).text('Name:name',15,05);
+          doc.fontSize(15).text("Rollno:190040800058",390,05,{
+            width:1000
+          });
+            doc.image("./up/"+current_image,15,23, {
+              
+               fit:[800,770],
                 align: 'left',
                 valign: 'center'
-             });
+             })
+            
+             
              if(value<image_array.length-1){          
                doc.addPage();
                console.log(value);
@@ -141,18 +160,23 @@ let testFolder="./up/";
 
   //Add an image, constrain it to a given size, and center it vertically and horizontally 
 
-*/
+
   }
      catch(err){
          console.log(err);
      }
 })
-app.get("/prompt",(req,res)=>{
+app.get("/prompt",checker_files,(req,res)=>{
+ 
     res.render('prompt.hbs');
+   
+
 })
-app.get("/send",(req,res)=>{
+app.post("/send",(req,res)=>{
     //download
 
+    req.cookies.name="";
+    req.cookies.rollno="";
     
     console.log(req.cookies.email);
     let email=req.cookies.email;
@@ -188,16 +212,21 @@ app.get("/send",(req,res)=>{
           res.send("error");
         } else {
           console.log('Email sent: ' + info.response);
-          res.send("okay");
+          res.status(200).send(info.response+"okay ");
           res.cookie("email","");
           res.cookie("total_files","");
+
+
+
 
         }
       });
     
     });
 
-
+app.get("*",(req,res)=>{
+  res.send("there is no route available");
+})
 app.listen(port,()=>{
     console.log(`listening on port ${port}`);
 })
