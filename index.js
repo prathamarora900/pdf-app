@@ -125,8 +125,8 @@ let testFolder="./up/";
         
         image_array.map((current_image,value) =>{
          
-          doc.fontSize(15).text('Name:name',15,05);
-          doc.fontSize(15).text("Rollno:190040800058",390,05,{
+          doc.fontSize(15).text(`Name:${req.cokkies.name}`,15,05);
+          doc.fontSize(15).text(`Rollno:${req.cookies.rollno}`,390,05,{
             width:1000
           });
             doc.image("./up/"+current_image,15,23, {
