@@ -25,6 +25,7 @@
     border: 2px dashed rgba(255, 255, 255, 0.7);
     padding: 1rem;
     position: relative;
+ 
 }
 
 .image-area::before {
@@ -44,14 +45,13 @@
     z-index: 2;
     position: relative;
 }
+.chaange_text{
 
-/*
-*
-* ==========================================
-* FOR DEMO PURPOSES
-* ==========================================
-*
-*/
+}
+.change_text::before{
+    content:"click on submit";
+}
+
 body {
     min-height: 100vh;
     background-color: black;
@@ -110,7 +110,6 @@ body {
             <div class="image-area mt-4" id="image-heading" style="    border: 2px dashed rgba(255, 255, 255, 0.7);
     /* padding: 1rem; */
     position: relative;
-    width: 525px;
     height: 31px;" >
                 <div id="image_results" style="height: 100%;
     background: currentColor;    height: 34px;
@@ -164,33 +163,7 @@ setInterval(c,100);
 
     
     const image_heading=document.getElementById("image-heading");
-  /*function readURL(input
-  ) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            $('#imageResult')
-                .attr('src', e.target.result);
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
-$(function () {
-    $('#upload').on('change', function () {
-        readURL(input);
-    });
-});
-
-/*  ==========================================
-    SHOW UPLOADED IMAGE NAME
-* ========================================== */
-/*var input = document.getElementById( 'upload' );
-var infoArea = document.getElementById( 'upload-label' );
-
-input.addEventListener( 'change', showFileName );
-*/
+  
 
 
 const but=document.getElementById("but");
@@ -198,8 +171,8 @@ const imageResult=document.getElementById("image_results");
 const upload=document.getElementById("upload-label");
 const up=document.getElementById("upload");
 let  activate=false;
-up.addEventListener("change",ram);
-up.addEventListener("click",df);
+up.addEventListener("change",ram);   //event occur 
+up.addEventListener("click",df); 
  function ram(){
      imageResult.style.width=0+"%";
     but.style.display="none";
@@ -221,18 +194,18 @@ let clicks=0;
 
 
 
-const calling=()=>{
+const calling=()=>{     //call that calling function after 90 min if boolean value is true
    
 per=per+106.5;
-if(per<=106.5){
+if(per<=106.5){     
     
-imageResult.style.width=per+"%";
+
 per++;}
 else{
  activate=false;   
  //console.log("okay");
  but.style.display="block";
- 
+ image_heading.classList.add("change_text");
      removeEventListener("change",ram);
 
 }

@@ -1,5 +1,5 @@
 const express=require("express");
-const hbs=require("hbs");            //handlebars                                   //require all module that we use
+const hbs=require("hbs");            //handlebars                     //require all module that we use
 const path=require("path"); 
 const nodemailer=require("nodemailer");   
 const checker_files=require("./controller/checker_files");    
@@ -10,7 +10,7 @@ const  fs=require("fs");        //file system
 const rimraf=require("rimraf");   //for deleting non empty files
 let PDFDocument = require('pdfkit');    //for creating pdf
 const port=process.env.PORT||3000;
-const app=express();
+const app=express();      
 const fileUpload=require("express-fileupload");    //file uploader
 const cp=require("cookie-parser");
 const { exit } = require("process");
@@ -177,7 +177,7 @@ app.post("/send",(req,res)=>{
 
     req.cookies.name="";
     req.cookies.rollno="";
-    
+
     console.log(req.cookies.email);
     let email=req.cookies.email;
     if(!email){
@@ -195,8 +195,8 @@ app.post("/send",(req,res)=>{
       var mailOptions = {   //mail option
         from: 'arorapratham900@gmail.com',
         to: `${email}`,
-        subject: 'Sending Email using Node.js',
-        text: "",
+        subject: 'Pdf that you wanted ',
+        text: "Thanks for using our service ",
         attachments:[{
           filename: 'output.pdf',
           path: __dirname + '/output.pdf'
@@ -212,7 +212,7 @@ app.post("/send",(req,res)=>{
           res.send("error");
         } else {
           console.log('Email sent: ' + info.response);
-          res.status(200).send(info.response+"okay ");
+          res.status(200).send("Send succesfully");
           res.cookie("email","");
           res.cookie("total_files","");
 
